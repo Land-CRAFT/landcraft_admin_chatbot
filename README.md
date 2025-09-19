@@ -2,11 +2,13 @@
 
 A simple navigator chatbot designed to help PhD students find resources that are usually internally kept.
 
+Resources linked are Sharepoint-protected so that externals are not permitted to access them. If one wants to implement this solution, consider using limited access points too.
+
 ![Land-CRAFT Navigator](https://img.shields.io/badge/Status-Active-brightgreen) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
 ## 🎯 Overview
 
-The Land-CRAFT Onboarding Navigator is an interactive web-based chatbot that helps new PhD students quickly find relevant resources, documentation, tools, and communities within Land-CRAFT team. Built as a single HTML file with embedded CSS and JavaScript, it's designed to be lightweight, fast, and easy to deploy.
+The Land-CRAFT Onboarding Navigator is an interactive web-based chatbot that helps new PhD students quickly find relevant resources, documentation, tools, and groups within Land-CRAFT team. Built as a single HTML file with embedded CSS and JavaScript, it's designed to be lightweight, fast, and easy to deploy.
 
 ## ✨ Features
 
