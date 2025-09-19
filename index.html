@@ -241,28 +241,33 @@
         const resources = {
             tutorials: {
                 name: "Tutorials & Guides",
-                url: "https://1drv.ms/f/s/YOUR_TUTORIAL_FOLDER_LINK",
-                description: "Step-by-step guides and tutorials"
-            },
-            templates: {
-                name: "Templates",
-                url: "https://1drv.ms/f/s/YOUR_TEMPLATE_FOLDER_LINK",
-                description: "Ready-to-use templates and forms"
+                url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EryIue8ynZlIuoFclyMfKBUBTxZjqgMdqcQxWzCRZaINlg?e=HKVuiD",
+                description: "Step-by-step guides and tutorials for creating letter heads, and other resources"
             },
             documentation: {
                 name: "Documentation",
-                url: "https://1drv.ms/f/s/YOUR_DOCS_FOLDER_LINK",
-                description: "Technical documentation and references"
+                url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/En0Ij0DN3lZIqMfUPmLBCBQBkmUMOyrx9RkvfgWpq14NAQ?e=PtgeRi",
+                description: "Technical documentation and references for tools used in Land-CRAFT (Landscape_DNDC and more)"
             },
             examples: {
-                name: "Examples & Samples",
-                url: "https://1drv.ms/f/s/YOUR_EXAMPLES_FOLDER_LINK",
+                name: "Samples",
+                url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/Eg7xijLT7zpLnzW44Tt1KzoB8NxQjtWuXwnjqfoapc63ng?e=MQWt5x",
                 description: "Sample files and examples"
             },
             tools: {
                 name: "Tools & Software",
-                url: "https://1drv.ms/f/s/YOUR_TOOLS_FOLDER_LINK",
+                url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EmYfpKd6Cq1AkKhgwG7qNnkBfmtVrdNkfeIztA9it7w0tQ?e=eKqhGE",
                 description: "Useful tools and software downloads"
+            },
+            groups_to_join: {
+                name: "Groups to Join",
+                url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EkAeni6o4gFMqbQP79TDOVABbwb0jNQHegjHyon58CvBTg?e=kykofh",
+                description: "Groups in Whatsapp and Teams"
+                            },
+            courses: {
+                name: "Courses",
+                url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EgNHK_rskIVFoOVxT8IiDEgBsv9_bTUIAhph6ziZwi2ehQ?e=WlVn4N",
+                description: "links to relevant courses"
             }
         };
 
@@ -333,13 +338,24 @@
             showWelcomeMessage() {
                 const messageDiv = this.addMessage("Hi there! 👋 I'm here to help you navigate our resources. What are you looking for today?");
                 
-                const options = [
-                    { text: "📚 Learning materials", action: "learning" },
-                    { text: "📝 Templates & forms", action: "templates" },
-                    { text: "📖 Documentation", action: "documentation" },
-                    { text: "🔧 Tools & software", action: "tools" },
-                    { text: "🎯 I'm not sure, show me everything", action: "browse_all" }
-                ];
+                // Icon mapping for different resource types
+                const iconMap = {
+                    tutorials: "📚",
+                    documentation: "📖",
+                    examples: "📋",
+                    tools: "🔧",
+                    groups_to_join: "👥",
+                    courses: "🎓"
+                };
+                
+                // Generate options dynamically from resources
+                const options = Object.entries(resources).map(([key, resource]) => ({
+                    text: `${iconMap[key] || "�"} ${resource.name}`,
+                    action: key
+                }));
+                
+                // Add the "show everything" option
+                options.push({ text: "🎯 I'm not sure, show me everything", action: "browse_all" });
 
                 this.addOptions(options, messageDiv);
             }
@@ -358,39 +374,25 @@
             }
 
             handleUserChoice(action) {
-                switch(action) {
-                    case 'learning':
-                        this.showLearningOptions();
-                        break;
-                    case 'templates':
-                        this.showResourceLink('templates');
-                        break;
-                    case 'documentation':
-                        this.showResourceLink('documentation');
-                        break;
-                    case 'tools':
-                        this.showResourceLink('tools');
-                        break;
-                    case 'browse_all':
-                        this.showAllResources();
-                        break;
-                    case 'restart':
-                        this.restart();
-                        break;
+                // Handle special actions
+                if (action === 'browse_all') {
+                    this.showAllResources();
+                    return;
+                }
+                if (action === 'restart') {
+                    this.restart();
+                    return;
+                }
+                
+                // Handle any resource dynamically
+                if (resources[action]) {
+                    this.showResourceLink(action);
+                } else {
+                    // Fallback for unknown actions
+                    this.showAllResources();
                 }
             }
 
-            showLearningOptions() {
-                const messageDiv = this.addMessage("Great! What type of learning material are you interested in?");
-                
-                const options = [
-                    { text: "📖 Beginner tutorials", action: "tutorials" },
-                    { text: "📋 Examples & samples", action: "examples" },
-                    { text: "🔄 Back to main menu", action: "restart" }
-                ];
-
-                this.addOptions(options, messageDiv);
-            }
 
             showResourceLink(resourceKey) {
                 const resource = resources[resourceKey];
