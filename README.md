@@ -6,7 +6,7 @@ A simple navigator chatbot designed to help PhD students find resources that are
 
 ## 🎯 Overview
 
-The Land-CRAFT Onboarding Navigator is an interactive web-based chatbot that helps new PhD students quickly find relevant resources, documentation, tools, and communities within the Land-CRAFT project. Built as a single HTML file with embedded CSS and JavaScript, it's designed to be lightweight, fast, and easy to deploy.
+The Land-CRAFT Onboarding Navigator is an interactive web-based chatbot that helps new PhD students quickly find relevant resources, documentation, tools, and communities within Land-CRAFT team. Built as a single HTML file with embedded CSS and JavaScript, it's designed to be lightweight, fast, and easy to deploy.
 
 ## ✨ Features
 
@@ -242,7 +242,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - Report broken or outdated links
 
 ### **Contact Information**
-- **Project**: Land-CRAFT at Aarhus University
+- **Team**: Land-CRAFT at Aarhus University
 - **Repository**: [github.com/GraceBarbacias/landcraft_onboarding_chatbot](https://github.com/GraceBarbacias/landcraft_onboarding_chatbot)
 
 ---
