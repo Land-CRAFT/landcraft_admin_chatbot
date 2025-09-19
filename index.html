@@ -447,19 +447,19 @@
                 setTimeout(() => {
                     this.hideTypingIndicator();
                     this.showWelcomeMessage();
+                    this.scrollToTop();
                 }, 1000);
             }
 
             showTypingIndicator() {
                 this.typingIndicator.style.display = 'flex';
-                this.scrollToBottom();
             }
 
             hideTypingIndicator() {
                 this.typingIndicator.style.display = 'none';
             }
 
-            addMessage(content, isBot = true, hasOptions = false) {
+            addMessage(content, isBot = true, shouldScroll = true) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message';
 
@@ -479,7 +479,9 @@
                 }
 
                 this.messagesContainer.insertBefore(messageDiv, this.typingIndicator);
-                this.scrollToBottom();
+                if (shouldScroll) {
+                    this.scrollToBottom();
+                }
                 return messageDiv;
             }
 
@@ -499,7 +501,7 @@
             }
 
             showWelcomeMessage() {
-                const messageDiv = this.addMessage("Hi there! 👋 I'm here to help you navigate our resources. You can either click an option below or type what you're looking for:");
+                const messageDiv = this.addMessage("Hi there! 👋 I'm here to help you navigate our resources. You can either click an option below or type what you're looking for:", true, false);
                 
                 // Icon mapping for different resource types
                 const iconMap = {
@@ -619,6 +621,12 @@
             scrollToBottom() {
                 setTimeout(() => {
                     this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 100);
+            }
+
+            scrollToTop() {
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = 0;
                 }, 100);
             }
         }
