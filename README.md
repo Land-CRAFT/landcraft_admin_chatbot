@@ -1,6 +1,6 @@
 # 🌱 Land-CRAFT Onboarding Navigator
 
-An intelligent chatbot designed to help PhD students navigate resources and get started with the Land-CRAFT research project at Aarhus University.
+A simple navigator chatbot designed to help PhD students find resources that are usually internally kept.
 
 ![Land-CRAFT Navigator](https://img.shields.io/badge/Status-Active-brightgreen) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
