@@ -206,6 +206,53 @@
             color: white;
         }
 
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #chatInput {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #chatInput:focus {
+            border-color: #667eea;
+        }
+
+        #sendButton {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 60px;
+        }
+
+        #sendButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        #sendButton:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         @media (max-width: 600px) {
             .chatbot-container {
                 height: 100vh;
@@ -234,6 +281,11 @@
                 </div>
             </div>
         </div>
+        
+        <div class="chat-input-container">
+            <input type="text" id="chatInput" placeholder="Type your question here..." maxlength="200">
+            <button id="sendButton">Send</button>
+        </div>
     </div>
 
     <script>
@@ -242,32 +294,38 @@
             tutorials: {
                 name: "Tutorials & Guides",
                 url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EryIue8ynZlIuoFclyMfKBUBTxZjqgMdqcQxWzCRZaINlg?e=HKVuiD",
-                description: "Step-by-step guides and tutorials for creating letter heads, and other resources"
+                description: "Step-by-step guides and tutorials for creating letter heads, and other resources",
+                keywords: ["tutorial", "guide", "how to", "learn", "beginner", "step by step", "letterhead", "letter head", "help"]
             },
             documentation: {
                 name: "Documentation",
                 url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/En0Ij0DN3lZIqMfUPmLBCBQBkmUMOyrx9RkvfgWpq14NAQ?e=PtgeRi",
-                description: "Technical documentation and references for tools used in Land-CRAFT (Landscape_DNDC and more)"
+                description: "Technical documentation and references for tools used in Land-CRAFT (Landscape_DNDC and more)",
+                keywords: ["documentation", "docs", "reference", "manual", "landscape_dndc", "dndc", "technical", "specification"]
             },
             examples: {
                 name: "Samples",
                 url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/Eg7xijLT7zpLnzW44Tt1KzoB8NxQjtWuXwnjqfoapc63ng?e=MQWt5x",
-                description: "Sample files and examples"
+                description: "Sample files and examples",
+                keywords: ["sample", "example", "template", "demo", "file", "format", "model"]
             },
             tools: {
                 name: "Tools & Software",
                 url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EmYfpKd6Cq1AkKhgwG7qNnkBfmtVrdNkfeIztA9it7w0tQ?e=eKqhGE",
-                description: "Useful tools and software downloads"
+                description: "Useful tools and software downloads",
+                keywords: ["tool", "software", "program", "download", "application", "utility", "install"]
             },
             groups_to_join: {
                 name: "Groups to Join",
                 url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EkAeni6o4gFMqbQP79TDOVABbwb0jNQHegjHyon58CvBTg?e=kykofh",
-                description: "Groups in Whatsapp and Teams"
-                            },
+                description: "Groups in Whatsapp and Teams",
+                keywords: ["group", "team", "whatsapp", "teams", "chat", "community", "join", "social", "network"]
+            },
             courses: {
                 name: "Courses",
                 url: "https://aarhusuniversitet-my.sharepoint.com/:f:/g/personal/au783075_uni_au_dk/EgNHK_rskIVFoOVxT8IiDEgBsv9_bTUIAhph6ziZwi2ehQ?e=WlVn4N",
-                description: "links to relevant courses"
+                description: "links to relevant courses",
+                keywords: ["course", "class", "training", "education", "learning", "study", "curriculum", "lesson"]
             }
         };
 
@@ -275,8 +333,108 @@
             constructor() {
                 this.messagesContainer = document.getElementById('chatMessages');
                 this.typingIndicator = document.getElementById('typingIndicator');
+                this.chatInput = document.getElementById('chatInput');
+                this.sendButton = document.getElementById('sendButton');
                 this.conversationState = 'welcome';
+                this.setupInputHandlers();
                 this.init();
+            }
+
+            setupInputHandlers() {
+                // Send button click handler
+                this.sendButton.addEventListener('click', () => {
+                    this.handleUserInput();
+                });
+
+                // Enter key handler
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handleUserInput();
+                    }
+                });
+            }
+
+            handleUserInput() {
+                const userText = this.chatInput.value.trim();
+                if (!userText) return;
+
+                // Add user message
+                this.addMessage(userText, false);
+                
+                // Clear input
+                this.chatInput.value = '';
+                
+                // Show typing indicator
+                this.showTypingIndicator();
+
+                setTimeout(() => {
+                    this.hideTypingIndicator();
+                    this.processUserQuery(userText);
+                }, 800);
+            }
+
+            processUserQuery(query) {
+                const matchedResources = this.detectKeywords(query);
+                
+                if (matchedResources.length === 1) {
+                    // Single match - go directly to resource
+                    this.showResourceLink(matchedResources[0]);
+                } else if (matchedResources.length > 1) {
+                    // Multiple matches - show options
+                    this.showMultipleMatches(matchedResources, query);
+                } else {
+                    // No matches - show helpful response
+                    this.showNoMatches(query);
+                }
+            }
+
+            detectKeywords(query) {
+                const queryLower = query.toLowerCase();
+                const matches = [];
+
+                Object.entries(resources).forEach(([key, resource]) => {
+                    const score = resource.keywords.reduce((acc, keyword) => {
+                        if (queryLower.includes(keyword.toLowerCase())) {
+                            return acc + 1;
+                        }
+                        return acc;
+                    }, 0);
+
+                    if (score > 0) {
+                        matches.push({ key, score, resource });
+                    }
+                });
+
+                // Sort by score (highest first) and return resource keys
+                return matches
+                    .sort((a, b) => b.score - a.score)
+                    .map(match => match.key);
+            }
+
+            showMultipleMatches(resourceKeys, originalQuery) {
+                const messageDiv = this.addMessage(`I found several resources that might help with "${originalQuery}". Which one interests you most?`);
+                
+                const options = resourceKeys.map(key => ({
+                    text: `📂 ${resources[key].name}`,
+                    action: key
+                }));
+
+                options.push({ text: "🎯 Show me everything", action: "browse_all" });
+                this.addOptions(options, messageDiv);
+            }
+
+            showNoMatches(query) {
+                const messageDiv = this.addMessage(`I couldn't find specific resources for "${query}", but here are all available options:`);
+                this.showAllResourcesInMessage(messageDiv);
+            }
+
+            showAllResourcesInMessage(messageDiv) {
+                const options = Object.entries(resources).map(([key, resource]) => ({
+                    text: `📂 ${resource.name}`,
+                    action: key
+                }));
+
+                this.addOptions(options, messageDiv);
             }
 
             init() {
@@ -336,7 +494,7 @@
             }
 
             showWelcomeMessage() {
-                const messageDiv = this.addMessage("Hi there! 👋 I'm here to help you navigate our resources. What are you looking for today?");
+                const messageDiv = this.addMessage("Hi there! 👋 I'm here to help you navigate our resources. You can either click an option below or type what you're looking for:");
                 
                 // Icon mapping for different resource types
                 const iconMap = {
