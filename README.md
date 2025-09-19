@@ -239,7 +239,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - Verify internet connection for external resources
 
 ### **For Content Updates**
-- Contact the Land-CRAFT project administrators
+- Contact the repository owner
 - Submit pull requests for resource additions
 - Report broken or outdated links
 
@@ -251,6 +251,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🌟 Acknowledgments
 
-Built for the Land-CRAFT research project at Aarhus University to streamline PhD student onboarding and resource discovery.
+Built for the Land-CRAFT team at Aarhus University to streamline PhD student onboarding and resource discovery.
 
-**Happy researching! 🔬🌱**
+**Warm welcome! 🔬🌱**
