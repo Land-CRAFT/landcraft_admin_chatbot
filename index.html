@@ -90,6 +90,11 @@
             font-weight: bold;
             margin-right: 10px;
             flex-shrink: 0;
+            background-image: url('https://raw.githubusercontent.com/GraceBarbacias/landcraft_onboarding_chatbot/main/images/chatbot_onboarding%20(70%20x%2070%20px).png');
+            background-size: 25px 25px;
+            background-position: center;
+            background-repeat: no-repeat;
+}
         }
 
         .bot-text {
@@ -461,7 +466,7 @@
                 if (isBot) {
                     messageDiv.innerHTML = `
                         <div class="bot-message">
-                            <div class="bot-avatar">🤖</div>
+                            <div class="bot-avatar"></div>
                             <div class="bot-text">${content}</div>
                         </div>
                     `;
